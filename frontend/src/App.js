@@ -6,6 +6,7 @@ import Contact from "./components/Contact/Contact";
 import Home from "./components/Home/Home";
 import Hero from "./components/Hero/Hero";
 import Test from "./components/Test/Test";
+import Results from "./components/Results/Results";
 
 function App() {
   const [data, setData] = useState(null);
@@ -36,6 +37,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/results" element={<Results />} />
         </Routes>
       </div>
     </BrowserRouter>
