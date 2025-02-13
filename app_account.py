@@ -14,7 +14,6 @@ connection = engine.connect()
 metadata = db.MetaData()
 
 # Create table
-
 table = db.Table('users', metadata,
     db.Column('first_name', db.String(255)),
     db.Column('last_name', db.String(255)),
@@ -22,7 +21,7 @@ table = db.Table('users', metadata,
     db.Column('password', db.String(255))
 )
 
-@app.route('/insert', methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def insert():
     data = request.get_json()
     query = db.insert(table).values(
@@ -33,13 +32,24 @@ def insert():
         is_Valid=bycript.check_password_hash(data['check_password'], data['password'])     
     )
     ResultProxy = connection.execute(query)
-
     return jsonify({'message': 'success'})
 
 
 
 @app.route('/signin', methods=['POST'])
 def signin():
+    data = request.get_json()
+    query = db.select([table]).where(table.columns.email == data['email'])
+    ResultProxy = connection.execute(query)
+    ResultSet = ResultProxy.fetchall()
+    if ResultSet[0][2] == data['password']:
+        return jsonify({'message': 'success'})
+    else:
+        return jsonify({'message': 'failed'})
+    
+    
+@app.route('/forget_password', methods=['POST'])
+def forget_password():
     data = request.get_json()
     query = db.select([table]).where(table.columns.email == data['email'])
     ResultProxy = connection.execute(query)
@@ -70,16 +80,6 @@ def delete():
     ResultProxy = connection.execute(query)
     return jsonify({'message': 'success'})
 
-@app.route('/forget_password', methods=['POST'])
-def forget_password():
-    data = request.get_json()
-    query = db.select([table]).where(table.columns.email == data['email'])
-    ResultProxy = connection.execute(query)
-    ResultSet = ResultProxy.fetchall()
-    if ResultSet[0][2] == data['password']:
-        return jsonify({'message': 'success'})
-    else:
-        return jsonify({'message': 'failed'})
     
     
 
