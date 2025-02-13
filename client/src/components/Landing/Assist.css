@@ -1,4 +1,4 @@
-.puzzles {
+.assist {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,71 +8,42 @@
     background: #f0f4ff; /* Light background color */
 }
 
-.puzzles-content {
+.assist-content {
     max-width: 800px; /* Limit the width of the content */
     margin: 0 auto; /* Center the content */
 }
 
-.puzzles-image-container {
-    flex: 1; /* Allow the image container to grow and shrink */
-    max-width: 50%; /* Limit the width of the image container */
-    margin-right: 100px; /* Add gap between image and text content */
-}
-
-.puzzles-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-    justify-content: center;
-    text-align: left; /* Keep text alignment to left */
-}
-
-.puzzles-layout {
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Center items vertically */
-    flex-direction: row; /* Change to row to place image on the left */
-}
-
-.puzzles-title {
+.assist-title {
     font-size: 2.5rem; /* Title size */
     font-weight: 700; /* Bold text */
     color: #1f2937; /* Dark text color */
     margin-bottom: 1.5rem; /* Space below the title */
 }
 
-.puzzles-list {
+.assist-list {
     list-style: none; /* Remove default list styling */
     padding: 0; /* Remove padding */
     margin-bottom: 2rem; /* Space below the list */
 }
 
-.puzzles-list li {
+.assist-list li {
     font-size: 1.125rem; /* Medium text size */
     color: #4b5563; /* Gray text color */
     margin: 0.5rem 0; /* Space between list items */
 }
 
-.puzzles-button {
-    background-color: #1f2937; /* Dark background color */
+.assist-button {
+    background-image: linear-gradient(to right, #7f00ff, #e100ff); /* Gradient button */
     color: white; /* White text color */
     font-weight: 600; /* Medium bold text */
     padding: 12px 24px; /* Padding for button */
     border-radius: 9999px; /* Fully rounded button */
     transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
-    display: inline-flex; /* Flexbox for button */
-    align-items: center; /* Center align items */
-    justify-content: center; /* Center align items */
     border: none; /* No border */
     cursor: pointer; /* Pointer cursor */
-    text-decoration: none; /* No underline */
 }
 
-.puzzles-button:hover {
+.assist-button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
     transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-.puzzles-button .arrow {
-    margin-left: 0.5rem; /* Space between text and arrow */
-    font-size: 1.2rem; /* Arrow size */
 } 
