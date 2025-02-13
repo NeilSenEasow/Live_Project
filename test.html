@@ -4,47 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Questionnaire</title>
     <style>
-        .category {
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
         .question {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        label {
+        .question label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .question select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- place for question generation and result and send to /generate -->
-    <!-- send answer to /generate  -->
-
-
-
-
-    <h1>Test Questions</h1>
-
-
-
-    <div id="question-container"></div>
-    <button onclick="submitAnswers()">Submit Answers</button>
-    <button onclick="clearAnswers()">Clear Answers</button>
-    <button onclick="showResults()">Show Results</button>
-    <div id="results-container"></div>
+    <h1>Questionnaire</h1>
+    <form id="questionnaireForm">
+        <!-- Dynamically generated questions will go here -->
+    </form>
+    <button type="button" onclick="submitAnswers()">Submit Answers</button>
 
     <script>
-
-
-        questions = [
+        const questions = [
             {
                 "category": "Critical Thinking",
                 "questions": [
@@ -255,104 +257,67 @@
                     }
                 ]
             }
-        ]
+        ];
 
-        function loadQuestions() {
-            var questionContainer = document.getElementById('question-container');
-            questions.forEach(function (category) {
-                var categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category';
-                var categoryTitle = document.createElement('h2');
-                categoryTitle.textContent = category.category;
-                categoryDiv.appendChild(categoryTitle);
-                category.questions.forEach(function (question) {
-                    var questionDiv = document.createElement('div');
+
+
+        // Function to dynamically generate the form
+        function generateForm() {
+            const form = document.getElementById('questionnaireForm');
+            questions.forEach(category => {
+                const categoryHeader = document.createElement('h2');
+                categoryHeader.textContent = category.category;
+                form.appendChild(categoryHeader);
+
+                category.questions.forEach(question => {
+                    const questionDiv = document.createElement('div');
                     questionDiv.className = 'question';
-                    var questionText = document.createElement('p');
-                    questionText.textContent = question.text;
-                    questionDiv.appendChild(questionText);
-                    question.options.forEach(function (option) {
-                        var optionLabel = document.createElement('label');
-                        var optionInput = document.createElement('input');
-                        optionInput.type = 'radio';
-                        optionInput.name = question.id;
-                        optionInput.value = option;
-                        optionLabel.appendChild(optionInput);
-                        optionLabel.appendChild(document.createTextNode(option));
-                        questionDiv.appendChild(optionLabel);
+
+                    const label = document.createElement('label');
+                    label.textContent = question.text;
+                    questionDiv.appendChild(label);
+
+                    const select = document.createElement('select');
+                    select.id = question.id;
+                    question.options.forEach(option => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = option;
+                        select.appendChild(optionElement);
                     });
-                    categoryDiv.appendChild(questionDiv);
+                    questionDiv.appendChild(select);
+
+                    form.appendChild(questionDiv);
                 });
-                questionContainer.appendChild(categoryDiv);
             });
         }
 
-        loadQuestions();
-
+        // Function to collect answers and save as a JSON file
         function submitAnswers() {
-            var answers = {};
-            questions.forEach(function (category) {
-                category.questions.forEach(function (question) {
-                    var selectedOption = document.querySelector('input[name="' + question.id + '"]:checked');
-                    if (selectedOption) {
-                        answers[question.id] = selectedOption.value;
-                    }
+            const answers = {};
+            questions.forEach(category => {
+                category.questions.forEach(question => {
+                    const selectElement = document.getElementById(question.id);
+                    answers[question.id] = selectElement.value;
                 });
             });
 
-            // Send data to Flask backend
-            fetch('http://localhost:5000/submit-answers', {  // Ensure this matches your backend route
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(answers)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Server response:', data);
-                })
-                .catch(error => console.error('Error:', error));
+            // Convert answers to JSON string
+            const jsonData = JSON.stringify(answers, null, 2);
+
+            // Create a downloadable JSON file
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'answers.json'; // File name
+            a.click(); // Trigger the download
+            URL.revokeObjectURL(url); // Clean up
         }
 
-
-        function clearAnswers() {
-            var inputs = document.querySelectorAll('input[type="radio"]');
-            inputs.forEach(function (input) {
-                input.checked = false;
-            });
-        }
-
-        function showResults() {
-            var resultsContainer = document.getElementById('results-container');
-            resultsContainer.innerHTML = '';
-            questions.forEach(function (category) {
-                var categoryDiv = document.createElement('div');
-                categoryDiv.className = 'category';
-                var categoryTitle = document.createElement('h2');
-                categoryTitle.textContent = category.category;
-                categoryDiv.appendChild(categoryTitle);
-                category.questions.forEach(function (question) {
-                    var questionDiv = document.createElement('div');
-                    questionDiv.className = 'question';
-                    var questionText = document.createElement('p');
-                    questionText.textContent = question.text;
-                    questionDiv.appendChild(questionText);
-                    var selectedOption = document.querySelector('input[name="' + question.id + '"]:checked');
-                    var answerText = document.createElement('p');
-                    answerText.textContent = 'Your answer: ' + (selectedOption ? selectedOption.value : 'Not answered');
-                    questionDiv.appendChild(answerText);
-                    categoryDiv.appendChild(questionDiv);
-                });
-                resultsContainer.appendChild(categoryDiv);
-            });
-        }
-
-
-
-
+        // Generate the form when the page loads
+        window.onload = generateForm;
     </script>
-
 </body>
 
 </html>
