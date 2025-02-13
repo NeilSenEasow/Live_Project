@@ -10,7 +10,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.PROD_URL}/auth/login`, { // Ensure PROD_URL is set correctly
+      const response = await fetch('https://live-project-gj4j.onrender.com/auth/login', { // Directly using the URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
