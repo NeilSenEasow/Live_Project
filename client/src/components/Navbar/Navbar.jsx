@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token from local storage
+    setIsAuthenticated(false); // Update authentication state
+    navigate('/sign-in'); // Redirect to the sign-in page
+  };
 
   return (
     <nav className="navbar">
@@ -30,6 +37,14 @@ const Navbar = () => {
           <div>
             <Link to="/sign-up" className="signup-button">Sign Up</Link>
           </div>
+          {/* Show Profile button only if authenticated */}
+          {/* {isAuthenticated && (
+            <Link to="/profile" className="profile-button">Profile</Link>
+          )} */}
+          {/* Show Logout button only if authenticated */}
+          {isAuthenticated && (
+            <button onClick={handleLogout} className="logout-button">Logout</button>
+          )}
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -72,6 +87,10 @@ const Navbar = () => {
               <button className="signup-button" onClick={() => setIsMenuOpen(false)}>
                 Sign Up
               </button>
+              {/* Show Logout button only if authenticated */}
+              {isAuthenticated && (
+                <button onClick={handleLogout} className="logout-button">Logout</button>
+              )}
             </nav>
           </div>
         )}

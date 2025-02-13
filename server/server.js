@@ -6,6 +6,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/User.js");
 const dotenv = require('dotenv');
 const cors = require('cors');
+const jwt = require('jsonwebtoken'); // Import jsonwebtoken
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const app = express();
 
 // Use CORS middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from this origin
+    origin: ['http://localhost:5173', 'https://live-project-red.vercel.app'], // Allow requests from both origins
     methods: ['GET', 'POST'], // Allow specific HTTP methods
     credentials: true // Allow credentials (if needed)
 }));
@@ -33,8 +34,11 @@ app.use(passport.session());
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI; // Use the MongoDB URI from the environment variable
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected"))
+    .then(() => console.log("MongoDB connected for authentication"))
     .catch(err => console.error("MongoDB connection error:", err));
+
+// Secret key for JWT
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Use an environment variable for the secret
 
 passport.use(new LocalStrategy(
     async (username, password, done) => {
@@ -78,10 +82,10 @@ app.post("/auth/login", async (req, res, next) => {
     const isMatch = await user.verifyPassword(password); // Verify password
     if (!isMatch) return res.status(401).send("Login failed"); // Check if password matches
 
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      return res.send("Login successful");
-    });
+    // Generate a token
+    const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: '1h' }); // Token expires in 1 hour
+
+    res.json({ token }); // Send the token back to the client
   } catch (err) {
     return next(err); // Handle any errors
   }
@@ -112,7 +116,23 @@ app.post("/auth/register", async (req, res) => {
         return res.status(500).send("Error registering user");
     }
 });
-  
+
+app.get("/auth/user", async (req, res) => {
+  if (req.isAuthenticated()) {
+    // Fetch user data from the MongoDB database
+    try {
+      const user = await User.findById(req.user.id).select('username email'); // Get user by ID from the request
+      if (!user) {
+        return res.status(404).send("User not found"); // Handle case where user is not found
+      }
+      return res.json({ username: user.username, email: user.email }); // Send user data
+    } catch (err) {
+      return res.status(500).send("Error retrieving user data"); // Handle any errors
+    }
+  } else {
+    return res.status(401).send("Unauthorized"); // User is not authenticated
+  }
+});
 
 app.listen(5001, () => {
   console.log("Server is running on port 5001");

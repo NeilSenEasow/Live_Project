@@ -140,4 +140,18 @@
 
 .menu-button:hover {
   color: #333;
+}
+
+.logout-button {
+  background-color: #6b0e7e; /* Green background for logout */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #9e0bac; /* Darker red on hover */
 } 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
@@ -9,10 +9,12 @@ import Test from "./components/Test/Test";
 import Results from "./components/Results/Results";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/questions")
@@ -30,10 +32,19 @@ function App() {
       });
   }, []);
 
+  const checkAuth = () => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return (
     <BrowserRouter>
       <div>
-        <Navbar />
+        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/about" element={<About />} />
@@ -42,6 +53,7 @@ function App() {
           <Route path="/results" element={<Results />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/sign-in" />} />
         </Routes>
       </div>
     </BrowserRouter>

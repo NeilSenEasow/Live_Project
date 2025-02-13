@@ -25,10 +25,11 @@ const SignIn = () => {
         throw new Error('Login failed');
       }
 
-      const data = await response.text();
-      setNotification(data); // Set notification message
+      const { token } = await response.json(); // Get the token from the response
+      localStorage.setItem('token', token); // Store the token in local storage
+      setNotification('Login successful'); // Set notification message
       setError(''); // Clear any previous error
-      navigate('/'); // Redirect to the home page on successful login
+      navigate('/profile'); // Redirect to the profile page on successful login
     } catch (err) {
       setError(err.message); // Set error message if login fails
       setNotification(''); // Clear any previous notification
