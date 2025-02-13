@@ -5,11 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .category {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .question {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 
 <body>
 
     <!-- place for question generation and result and send to /generate -->
+    <!-- send answer to /generate  -->
+
+
+
+
+    <h1>Test Questions</h1>
+
+
 
     <div id="question-container"></div>
     <button onclick="submitAnswers()">Submit Answers</button>
@@ -275,8 +299,22 @@
                     }
                 });
             });
-            console.log(answers);
+
+            // Send data to Flask backend
+            fetch('http://localhost:5000/submit-answers', {  // Ensure this matches your backend route
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Server response:', data);
+                })
+                .catch(error => console.error('Error:', error));
         }
+
 
         function clearAnswers() {
             var inputs = document.querySelectorAll('input[type="radio"]');
