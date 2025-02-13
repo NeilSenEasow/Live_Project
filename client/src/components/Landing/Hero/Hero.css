@@ -1,0 +1,70 @@
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 1rem;
+    background: #f9fafb; /* Light background color */
+    animation: animate__backInDown; /* Add animation */
+}
+
+.hero-content {
+    max-width: 800px; /* Limit the width of the content */
+    margin: 0 auto; /* Center the content */
+}
+
+/* Title and Highlight Styling */
+.hero-title {
+    font-size: 3rem; /* Large title size */
+    font-weight: 800; /* Bold text */
+    font-family: 'Poppins', sans-serif; /* Font family */
+    color: #1f2937; /* Dark text color */
+    margin-bottom: 1.5rem; /* Space below the title */
+}
+
+/* Description Styling */
+.hero-description {
+    font-size: 1.125rem; /* Medium description size */
+    color: #4b5563; /* Gray text color */
+    font-family: 'Poppins', sans-serif; /* Font family */
+    line-height: 1.8; /* Line height for readability */
+    margin-bottom: 3rem; /* Space below the description */
+}
+
+/* Button Styling */
+.hero-button {
+    background-image: linear-gradient(to right, #7f00ff, #e100ff); /* Gradient button */
+    color: white; /* White text color */
+    font-family: 'Poppins', sans-serif; /* Font family */
+    font-weight: 600; /* Medium bold text */
+    padding: 12px 24px; /* Padding for button */
+    border-radius: 9999px; /* Fully rounded button */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
+    display: inline-flex; /* Flexbox for button */
+    align-items: center; /* Center align items */
+    justify-content: center; /* Center align items */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor */
+    text-decoration: none; /* No underline */
+}
+
+.hero-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.hero-button .arrow {
+    margin-left: 0.5rem; /* Space between text and arrow */
+    font-size: 1.2rem; /* Arrow size */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem; /* Smaller title size on mobile */
+    }
+    .hero-description {
+        font-size: 1rem; /* Smaller description size on mobile */
+    }
+} 
