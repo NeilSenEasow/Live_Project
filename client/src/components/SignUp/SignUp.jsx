@@ -12,7 +12,7 @@ const SignUp = () => {
     e.preventDefault(); // Prevent the default form submission
 
     try {
-      const response = await fetch(`https://live-project-gj4j.onrender.com/auth/register`, { // Directly using the production URL
+      const response = await fetch(`https://live-project-q2fh.onrender.com/auth/register`, { // Directly using the production URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
