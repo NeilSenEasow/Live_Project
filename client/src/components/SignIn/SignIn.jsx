@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './SignIn.css';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [notification, setNotification] = useState(''); // State for notification
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://live-project-q2fh.onrender.com/auth/login', { // Directly using the URL
+      const response = await fetch('http://localhost:5001/auth/login', { // Using the DEV URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,9 +26,12 @@ const SignIn = () => {
       }
 
       const data = await response.text();
-      alert(data); // Show success message or handle it as needed
+      setNotification(data); // Set notification message
+      setError(''); // Clear any previous error
+      navigate('/'); // Redirect to the home page on successful login
     } catch (err) {
       setError(err.message); // Set error message if login fails
+      setNotification(''); // Clear any previous notification
     }
   };
 
@@ -56,6 +62,7 @@ const SignIn = () => {
         <button type="submit" className="sign-in-button">Sign In</button>
         {error && <p className="error-message">{error}</p>} {/* Display error message */}
       </form>
+      {notification && <p className="notification-message" style={{ color: 'green' }}>{notification}</p>} {/* Display notification message */}
     </div>
   );
 };

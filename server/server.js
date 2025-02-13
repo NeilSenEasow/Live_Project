@@ -89,23 +89,28 @@ app.post("/auth/login", async (req, res, next) => {
 
 app.post("/auth/register", async (req, res) => {
     try {
-        const { username, email, password } = req.body; // Added email to the destructuring
-    
+        const { username, email, password } = req.body; // Ensure this matches the request body structure
+
         // Check if the user already exists
-        const existingUser = await User.findOne({ username });
-        if (existingUser) {
-          return res.status(400).send("User already exists");
+        const existingUserByEmail = await User.findOne({ email }); // Check by email
+        if (existingUserByEmail) {
+            return res.status(400).send("Email already exists"); // Send specific error message
         }
-    
+
+        const existingUserByUsername = await User.findOne({ username }); // Check by username
+        if (existingUserByUsername) {
+            return res.status(400).send("Username already exists"); // Send specific error message
+        }
+
         // Create a new user
-        const newUser = new User({ username, email, password }); // Added email to the new user object
+        const newUser = new User({ username, email, password }); // Ensure the User model has the email field
         await newUser.save();
-    
+
         return res.send("Registration successful");
-      } catch (err) {
+    } catch (err) {
         console.error(err);
         return res.status(500).send("Error registering user");
-      }
+    }
 });
   
 

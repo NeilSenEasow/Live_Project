@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate instead of useHistory
 import './SignUp.css';
 
 const SignUp = () => {
@@ -7,12 +8,14 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission
+    console.log({ username: name, email, password }); // Log the data being sent
 
     try {
-      const response = await fetch(`https://live-project-q2fh.onrender.com/auth/register`, { // Directly using the production URL
+      const response = await fetch(`http://localhost:5001/auth/register`, { // Using the DEV URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,12 +24,14 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Registration failed');
+        const errorMessage = await response.text(); // Get the error message from the response
+        throw new Error(errorMessage); // Throw an error with the message
       }
 
       const data = await response.text();
       setSuccess(data); // Show success message
       setError(''); // Clear any previous error
+      navigate('/sign-in'); // Redirect to the login page on successful registration
     } catch (err) {
       setError(err.message); // Set error message if registration fails
       setSuccess(''); // Clear any previous success message
@@ -71,6 +76,7 @@ const SignUp = () => {
         {error && <p className="error-message">{error}</p>} {/* Display error message */}
         {success && <p className="success-message">{success}</p>} {/* Display success message */}
       </form>
+      <p>Already have an account? <Link to="/sign-in">Login here</Link></p> {/* Link to sign-in page */}
     </div>
   );
 };
