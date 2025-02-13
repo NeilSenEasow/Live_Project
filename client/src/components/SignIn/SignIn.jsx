@@ -10,7 +10,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5001/auth/login', {
+      const response = await fetch(`${process.env.DEV_URL}/auth/login`, { // Use environment variable for URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
