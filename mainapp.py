@@ -15,11 +15,13 @@ genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 model = genai.GenerativeModel('gemini-pro')
 
 def generate_follow_up_questions(answers):
-    # Create a prompt for Gemini AI
+    # Create a prompt for Gemini AI and generate 10 questions
+    
     prompt = f"""
+    act as carrer advisor and generate questions based on the answers
     Based on these answers from a quiz: {answers}
     
-    Generate 1 follow-up questions that would help assess the respondent's skills and thinking further.
+    Generate 10 follow-up questions that would help assess the respondent's skills and thinking further.
     Each question should have 4 multiple choice options.
     
     Return ONLY valid JSON in exactly this format, with no additional text:
