@@ -17,6 +17,7 @@ const Test = () => {
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
+          console.log("Failed to fetch questions");
         }
         return response.json();
       })

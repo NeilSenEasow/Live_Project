@@ -7,13 +7,15 @@ import Home from "./components/Home/Home";
 import Hero from "./components/Hero/Hero";
 import Test from "./components/Test/Test";
 import Results from "./components/Results/Results";
+import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 
 function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/teammates")
+    fetch("http://127.0.0.1:5000/questions")
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
@@ -38,6 +40,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/test" element={<Test />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
       </div>
     </BrowserRouter>

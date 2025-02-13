@@ -27,7 +27,9 @@ const Navbar = () => {
               {item.name}
             </Link>
           ))}
-          <button className="signup-button">Sign Up</button>
+          <div>
+            <Link to="/sign-up" className="signup-button">Sign Up</Link>
+          </div>
         </div>
 
         {/* Mobile Navigation Toggle */}
