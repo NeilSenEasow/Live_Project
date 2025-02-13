@@ -5,10 +5,18 @@ const session = require('express-session');
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/User.js");
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
+
+// Use CORS middleware
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    methods: ['GET', 'POST'], // Allow specific HTTP methods
+    credentials: true // Allow credentials (if needed)
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -58,20 +66,27 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.post("/auth/login", (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.status(401).send("Login failed");
+app.post("/auth/login", async (req, res, next) => {
+  const { email, password } = req.body; // Destructure email and password from the request body
+  try {
+    const user = await User.findOne({ email }); // Find user by email
+    if (!user) return res.status(401).send("Login failed"); // Check if user exists
+
+    const isMatch = await user.verifyPassword(password); // Verify password
+    if (!isMatch) return res.status(401).send("Login failed"); // Check if password matches
+
     req.logIn(user, (err) => {
       if (err) return next(err);
       return res.send("Login successful");
     });
-  })(req, res, next);
+  } catch (err) {
+    return next(err); // Handle any errors
+  }
 });
 
 app.post("/auth/register", async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, email, password } = req.body; // Added email to the destructuring
     
         // Check if the user already exists
         const existingUser = await User.findOne({ username });
@@ -80,7 +95,7 @@ app.post("/auth/register", async (req, res) => {
         }
     
         // Create a new user
-        const newUser = new User({ username, password });
+        const newUser = new User({ username, email, password }); // Added email to the new user object
         await newUser.save();
     
         return res.send("Registration successful");
