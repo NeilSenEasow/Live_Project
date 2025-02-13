@@ -10,7 +10,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.PROD_URL}/auth/login`, { // Use production environment variable for URL
+      const response = await fetch(`${process.env.PROD_URL}/auth/login`, { // Ensure PROD_URL is set correctly
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

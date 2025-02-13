@@ -12,7 +12,7 @@ const SignUp = () => {
     e.preventDefault(); // Prevent the default form submission
 
     try {
-      const response = await fetch(`${process.env.PROD_URL}/auth/register`, { // Use production environment variable for URL
+      const response = await fetch(`${process.env.PROD_URL}/auth/register`, { // Ensure PROD_URL is set correctly
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
