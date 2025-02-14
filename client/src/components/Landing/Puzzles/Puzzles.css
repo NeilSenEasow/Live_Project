@@ -25,6 +25,7 @@
     align-items: flex-start; /* Align items to the left */
     justify-content: center;
     text-align: left; /* Keep text alignment to left */
+    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
 }
 
 .puzzles-layout {
@@ -38,6 +39,7 @@
     font-weight: 700; /* Bold text */
     color: #1f2937; /* Dark text color */
     margin-bottom: 1.5rem; /* Space below the title */
+    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
 }
 
 .puzzles-list {

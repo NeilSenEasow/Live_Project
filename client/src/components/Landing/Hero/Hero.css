@@ -6,7 +6,7 @@
     text-align: center;
     padding: 5rem 1rem;
     background: #f9fafb; /* Light background color */
-    animation: animate__backInDown; /* Add animation */
+    animation: animate__backInDown, animate__fadeIn; /* Add animation */
 }
 
 .hero-content {
@@ -67,4 +67,12 @@
     .hero-description {
         font-size: 1rem; /* Smaller description size on mobile */
     }
+}
+
+/* Update font family for the entire hero section */
+.hero-title,
+.hero-subtitle,
+.hero-description,
+.hero-button {
+    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
 } 

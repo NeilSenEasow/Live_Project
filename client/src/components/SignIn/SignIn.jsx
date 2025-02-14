@@ -29,7 +29,7 @@ const SignIn = () => {
       localStorage.setItem('token', token); // Store the token in local storage
       setNotification('Login successful'); // Set notification message
       setError(''); // Clear any previous error
-      navigate('/profile'); // Redirect to the profile page on successful login
+      navigate('/'); // Redirect to the profile page on successful login
     } catch (err) {
       setError(err.message); // Set error message if login fails
       setNotification(''); // Clear any previous notification
