@@ -4,13 +4,36 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 5rem 1rem;
-    background: #f9fafb;
+    padding: 5rem 0; /* Adjusted padding for top and bottom */
+    margin: 0; /* Ensure no margin */
+    background: url(https://images.unsplash.com/photo-1484417894907-623942c8ee29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80);
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Position relative for content overlay */
+    width: 100vw; /* Set width to viewport width */
+    left: 50%; /* Center the section */
+    right: 50%; /* Center the section */
+    margin-left: -50vw; /* Adjust for centering */
+    margin-right: -50vw; /* Adjust for centering */
+}
+
+.hero::before {
+    content: ""; /* Create a pseudo-element for the blur effect */
+    position: absolute; /* Position it absolutely */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Inherit the background */
+    filter: blur(5px); /* Apply blur effect */
+    z-index: 1; /* Place it behind the content */
 }
 
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
+    position: relative; /* Position relative to ensure it is above the blur */
+    z-index: 2; /* Ensure content is above the blurred background */
 }
 
 /* Title and Highlight Styling */
