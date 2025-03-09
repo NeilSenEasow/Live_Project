@@ -5,7 +5,7 @@ import 'animate.css';
 
 const Hero = () => {
   const [text, setText] = useState("");
-  const fullText = "Shhare your career aspirations, and I'll guide you on the most efficient path to success—no guesswork, no detours. Let's turn your goals into reality.";
+  const fullText = "Share your career aspirations, and I'll guide you on the most efficient path to success—no guesswork, no detours. Let's turn your goals into reality.";
   let index = 0;
 
   useEffect(() => {
@@ -36,8 +36,6 @@ const Hero = () => {
           Get Started <span className="arrow">→</span>
         </Link>
       </div>
-      {/* Uncomment if you want to include the image */}
-      {/* <img src="https://unsplash.com/photos/a-row-of-light-bulbs-with-a-mans-head-in-the-middle-bPPGBNqAorg" alt="Portal Image" className="portal-image" /> */}
     </section>
   );
 };

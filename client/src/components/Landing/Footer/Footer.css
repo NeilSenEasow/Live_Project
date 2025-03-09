@@ -3,7 +3,10 @@
     color: white; /* White text color */
     padding: 2rem 1rem;
     text-align: center;
+    align-items: center;
     width: 100%; /* Full width */
+    /* margin-left: -50vw;  */
+    /* margin-right: -50vw; */
 }
 
 .footer-content {

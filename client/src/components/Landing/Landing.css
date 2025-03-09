@@ -6,15 +6,15 @@
     text-align: center;
     padding: 5rem 0; /* Adjusted padding for top and bottom */
     margin: 0; /* Ensure no margin */
-    background: url(https://images.unsplash.com/photo-1484417894907-623942c8ee29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80);
+    /* background: url(https://images.unsplash.com/photo-1484417894907-623942c8ee29?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80); */
     background-size: cover;
     background-position: center;
     position: relative; /* Position relative for content overlay */
     width: 100vw; /* Set width to viewport width */
     left: 50%; /* Center the section */
     right: 50%; /* Center the section */
-    margin-left: -50vw; /* Adjust for centering */
-    margin-right: -50vw; /* Adjust for centering */
+    margin-left: -50vw; 
+    margin-right: -50vw;
 }
 
 .hero::before {
