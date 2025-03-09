@@ -1,18 +1,26 @@
 .hero {
-    background-color: #f0f4ff; /* Light background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content */
+    justify-content: center; /* Centers content vertically */
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    background-color: #1a1a1a; /* Dark background */
     padding: 80px 20px; /* Adjust padding */
-    text-align: center;
+    position: relative;
+    overflow: hidden; /* Prevents any overflow */
 }
 
 .hero-content {
     max-width: 1000px; /* Limit the width */
+    width: 100%;
     margin: 0 auto; /* Center the content */
 }
 
 .hero-title {
     font-size: 3rem; /* Larger title */
     font-weight: bold;
-    color: #333; /* Dark text color */
+    color: #ffffff; /* Light text color */
 }
 
 .highlight {
@@ -21,46 +29,75 @@
 
 .hero-subtitle {
     font-size: 2rem; /* Subtitle size */
-    color: #666; /* Gray color */
+    color: #cccccc; /* Light gray color */
     margin: 20px 0;
 }
 
 .hero-description {
     font-size: 1.2rem; /* Description size */
-    color: #444; /* Darker gray */
+    color: #dddddd; /* Lighter gray */
     margin: 20px 0;
+    max-width: 600px; /* Prevents text from stretching too wide */
+    margin: 0 auto 2rem auto; /* Centers description */
+    line-height: 1.6;
 }
 
-.hero-button {
-    margin-top: 30px;
-    background-color: #007bff; /* Blue background */
-    color: white; /* White text */
-    padding: 12px 24px; /* Padding for button */
-    border-radius: 9999px; /* Fully rounded button */
-    transition: background-color 0.3s, transform 0.3s; /* Transition effects */
-    text-decoration: none; /* Remove underline */
-    display: inline-flex; /* Flexbox for button */
-    align-items: center; /* Center align items */
-    justify-content: center; /* Center align items */
-}
-
-.hero-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
+/* Features Section */
 .features {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap; /* Ensure features wrap on smaller screens */
+    justify-content: center; /* Center features */
     gap: 20px; /* Space between features */
     margin-top: 30px;
 }
 
 .feature {
-    background-color: rgb(190, 163, 221); /* White background for features */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #333333; /* Dark background for features */
+    color: #ffffff; /* Light text color */
     padding: 10px 20px; /* Padding for features */
     border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Shadow effect */
+}
+
+/* CTA Button */
+.hero-button {
+    background-image: linear-gradient(to right, #7f00ff, #e100ff);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    animation: pulse 2s infinite;
+}
+
+.hero-button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.hero-button .arrow {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Animation */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 /* Responsive Adjustments */
@@ -73,10 +110,10 @@
     }
 }
 
-/* Update font family for the entire hero section */
+/* Ensure consistent font family */
 .hero-title,
 .hero-subtitle,
 .hero-description,
 .hero-button {
-    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
-} 
+    font-family: 'Poppins', sans-serif;
+}

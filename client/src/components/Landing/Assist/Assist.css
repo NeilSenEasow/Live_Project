@@ -3,20 +3,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     padding: 5rem 1rem;
-    background: #f0f4ff; /* Light background color */
 }
 
 .assist-content {
-    max-width: 800px; /* Limit the width of the content */
+    /* max-width: 800px;  */
     margin: 0 auto; /* Center the content */
 }
 
 .assist-title {
     font-size: 2.5rem; /* Title size */
     font-weight: 700; /* Bold text */
-    color: #1f2937; /* Dark text color */
+    color: #9fb1ca; /* Dark text color */
     margin-bottom: 1.5rem; /* Space below the title */
 }
 

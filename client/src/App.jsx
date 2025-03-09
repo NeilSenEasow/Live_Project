@@ -9,6 +9,7 @@ import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import Profile from "./components/Profile/Profile";
 import Landing from "./components/Landing/Landing";
+import { MyContextProvider } from './context/MyContext';
 
 function App() {
   const [data, setData] = useState([]);
@@ -41,21 +42,23 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div>
-        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/sign-in" />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <MyContextProvider>
+      <BrowserRouter>
+        <div>
+          <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/sign-in" />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </MyContextProvider>
   );
 }
 

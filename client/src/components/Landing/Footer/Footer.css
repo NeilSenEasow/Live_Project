@@ -1,5 +1,5 @@
 .footer {
-    background-color: #f0f4ff; /* Light background */
+    background-color: #1a1a1a; /* Dark background */
     padding: 20px 0; /* Padding for top and bottom */
 }
 
@@ -7,6 +7,7 @@
     max-width: 800px; /* Limit the width */
     margin: 0 auto; /* Center the content */
     text-align: center; /* Center text */
+    color: #ffffff; /* Light text color */
 }
 
 .footer-links {
@@ -21,10 +22,15 @@
 }
 
 .footer-links a {
-    color: #e100ff; /* Link color */
+    color: #007bff; /* Link color */
     text-decoration: none; /* No underline */
 }
 
 .footer-links a:hover {
     text-decoration: underline; /* Underline on hover */
+}
+
+body {
+    background-color: #121212; /* Dark background for the entire page */
+    color: #ffffff; /* Light text color */
 } 

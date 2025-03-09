@@ -1,81 +1,91 @@
 .puzzles {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center everything */
+    justify-content: center;
+    text-align: left;
+    padding: 5rem 1rem;
+    background: #1a1a1a;
+    width: 100%;
+    overflow: hidden; /* Prevents overflow */
+}
+
+.puzzles-layout {
+    display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 5rem 1rem;
-    background: #f0f4ff; /* Light background color */
-    width: 100%; /* Full width */
+    flex-wrap: wrap; /* Wrap content on smaller screens */
+    max-width: 100%;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .puzzles-content {
-    max-width: 800px; /* Limit the width of the content */
-    margin: 0 auto; /* Center the content */
-}
-
-.puzzles-image-container {
-    flex: 1; /* Allow the image container to grow and shrink */
-    max-width: 50%; /* Limit the width of the image container */
-    margin-right: 100px; /* Add gap between image and text content */
+    max-width: 600px; /* Reduced max-width */
+    width: 100%;
+    padding: 0 1rem;
+    text-align: left;
 }
 
 .puzzles-text {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align items */
+    align-items: flex-start;
     justify-content: center;
-    text-align: center; /* Center text */
-    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
-}
-
-.puzzles-layout {
-    display: flex; /* Flexbox for layout */
-    align-items: center; /* Center items vertically */
-    flex-direction: row; /* Change to row to place image on the left */
+    font-family: 'Poppins', sans-serif;
 }
 
 .puzzles-title {
-    font-size: 2.5rem; /* Title size */
-    font-weight: 700; /* Bold text */
-    color: #1f2937; /* Dark text color */
-    margin-bottom: 1.5rem; /* Space below the title */
-    font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
 }
 
 .puzzles-list {
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove padding */
-    margin-bottom: 2rem; /* Space below the list */
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
 }
 
 .puzzles-list li {
-    font-size: 1.125rem; /* Medium text size */
-    color: #4b5563; /* Gray text color */
-    margin: 0.5rem 0; /* Space between list items */
+    font-size: 1.125rem;
+    color: #cccccc;
+    margin: 0.5rem 0;
 }
 
+/* Button Styling */
 .puzzles-button {
-    background-color: #1f2937; /* Dark background color */
-    color: white; /* White text color */
-    font-weight: 600; /* Medium bold text */
-    padding: 12px 24px; /* Padding for button */
-    border-radius: 9999px; /* Fully rounded button */
-    transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
-    display: inline-flex; /* Flexbox for button */
-    align-items: center; /* Center align items */
-    justify-content: center; /* Center align items */
-    border: none; /* No border */
-    cursor: pointer; /* Pointer cursor */
-    text-decoration: none; /* No underline */
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .puzzles-button:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
 }
 
 .puzzles-button .arrow {
-    margin-left: 0.5rem; /* Space between text and arrow */
-    font-size: 1.2rem; /* Arrow size */
-} 
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .puzzles-title {
+        font-size: 2rem;
+    }
+    .puzzles-list li {
+        font-size: 1rem;
+    }
+}
