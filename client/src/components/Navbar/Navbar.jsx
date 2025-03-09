@@ -23,7 +23,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
         {/* Logo Section */}
         <div className="logo">
           <Link to="/" className="logo-text">
-            <span className="logo-gradient">CareerFindr</span>
+            <span className="logo-gradient">Careerflow.ai</span>
           </Link>
         </div>
 
@@ -34,9 +34,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
               {item.name}
             </Link>
           ))}
-          <div>
-            <Link to="/sign-up" className="signup-button">Sign Up</Link>
-          </div>
+          <Link to="/sign-up" className="signup-button">Sign Up</Link>
           {/* Show Profile button only if authenticated */}
           {/* {isAuthenticated && (
             <Link to="/profile" className="profile-button">Profile</Link>

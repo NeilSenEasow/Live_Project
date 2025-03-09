@@ -1,27 +1,23 @@
 .footer {
-    background-color: #1f2937; /* Dark background color */
-    color: white; /* White text color */
-    padding: 2rem 1rem;
-    text-align: center;
-    align-items: center;
-    width: 100%; /* Full width */
-    /* margin-left: -50vw;  */
-    /* margin-right: -50vw; */
+    background-color: #f0f4ff; /* Light background */
+    padding: 20px 0; /* Padding for top and bottom */
 }
 
 .footer-content {
-    max-width: 800px; /* Limit the width of the content */
+    max-width: 800px; /* Limit the width */
     margin: 0 auto; /* Center the content */
+    text-align: center; /* Center text */
 }
 
 .footer-links {
     list-style: none; /* Remove default list styling */
     padding: 0; /* Remove padding */
+    margin: 10px 0 0; /* Margin for spacing */
 }
 
 .footer-links li {
     display: inline; /* Display links inline */
-    margin: 0 1rem; /* Space between links */
+    margin: 0 10px; /* Space between links */
 }
 
 .footer-links a {

@@ -1,5 +1,5 @@
 .navbar {
-  background-color: white;
+  background-color: #f0f4ff; /* Light background */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,7 +31,9 @@
 }
 
 .nav-links {
-  display: none;
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
 .nav-link {
@@ -59,6 +61,20 @@
 .signup-button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transform: scale(1.05);
+}
+
+.logout-button {
+  background-color: #6b0e7e; /* Logout button color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #9e0bac; /* Darker on hover */
 }
 
 .menu-icon {
@@ -140,18 +156,4 @@
 
 .menu-button:hover {
   color: #333;
-}
-
-.logout-button {
-  background-color: #6b0e7e; /* Green background for logout */
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-button:hover {
-  background-color: #9e0bac; /* Darker red on hover */
 } 

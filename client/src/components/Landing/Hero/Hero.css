@@ -1,62 +1,66 @@
 .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background-color: #f0f4ff; /* Light background */
+    padding: 80px 20px; /* Adjust padding */
     text-align: center;
-    padding: 5rem 1rem;
-    background: #f9fafb; /* Light background color */
-    animation: animate__backInDown, animate__fadeIn; /* Add animation */
 }
 
 .hero-content {
-    max-width: 800px; /* Limit the width of the content */
+    max-width: 1000px; /* Limit the width */
     margin: 0 auto; /* Center the content */
 }
 
-/* Title and Highlight Styling */
 .hero-title {
-    font-size: 3rem; /* Large title size */
-    font-weight: 800; /* Bold text */
-    font-family: 'Poppins', sans-serif; /* Font family */
-    color: #1f2937; /* Dark text color */
-    margin-bottom: 1.5rem; /* Space below the title */
+    font-size: 3rem; /* Larger title */
+    font-weight: bold;
+    color: #333; /* Dark text color */
 }
 
-/* Description Styling */
+.highlight {
+    color: #007bff; /* Highlight color */
+}
+
+.hero-subtitle {
+    font-size: 2rem; /* Subtitle size */
+    color: #666; /* Gray color */
+    margin: 20px 0;
+}
+
 .hero-description {
-    font-size: 1.125rem; /* Medium description size */
-    color: #4b5563; /* Gray text color */
-    font-family: 'Poppins', sans-serif; /* Font family */
-    line-height: 1.8; /* Line height for readability */
-    margin-bottom: 3rem; /* Space below the description */
+    font-size: 1.2rem; /* Description size */
+    color: #444; /* Darker gray */
+    margin: 20px 0;
 }
 
-/* Button Styling */
 .hero-button {
-    background-image: linear-gradient(to right, #7f00ff, #e100ff); /* Gradient button */
-    color: white; /* White text color */
-    font-family: 'Poppins', sans-serif; /* Font family */
-    font-weight: 600; /* Medium bold text */
+    margin-top: 30px;
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
     padding: 12px 24px; /* Padding for button */
     border-radius: 9999px; /* Fully rounded button */
-    transition: transform 0.3s, box-shadow 0.3s; /* Transition effects */
+    transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+    text-decoration: none; /* Remove underline */
     display: inline-flex; /* Flexbox for button */
     align-items: center; /* Center align items */
     justify-content: center; /* Center align items */
-    border: none; /* No border */
-    cursor: pointer; /* Pointer cursor */
-    text-decoration: none; /* No underline */
 }
 
 .hero-button:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    background-color: #0056b3; /* Darker blue on hover */
     transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-.hero-button .arrow {
-    margin-left: 0.5rem; /* Space between text and arrow */
-    font-size: 1.2rem; /* Arrow size */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between features */
+    margin-top: 30px;
+}
+
+.feature {
+    background-color: rgb(190, 163, 221); /* White background for features */
+    padding: 10px 20px; /* Padding for features */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
 /* Responsive Adjustments */

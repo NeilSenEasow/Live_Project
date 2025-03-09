@@ -23,9 +23,9 @@
 .puzzles-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
+    align-items: center; /* Center align items */
     justify-content: center;
-    text-align: left; /* Keep text alignment to left */
+    text-align: center; /* Center text */
     font-family: 'Poppins', sans-serif; /* Ensure consistent font family */
 }
 
