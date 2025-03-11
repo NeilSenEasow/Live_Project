@@ -1,6 +1,6 @@
 .navbar {
   /* background-color: #f0f4ff;  */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(226, 133, 133, 0.1);
 }
 
 .container {
@@ -20,7 +20,7 @@
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #b789eb;
   text-decoration: none;
 }
 
@@ -64,7 +64,8 @@
 }
 
 .logout-button {
-  background-color: #6b0e7e; /* Logout button color */
+  background-color: #bb1adb; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: white;
   padding: 10px 20px;
   border: none;

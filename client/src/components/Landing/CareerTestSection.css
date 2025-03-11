@@ -1,0 +1,92 @@
+.career-test-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a; /* Dark background */
+    padding: 5rem 2rem;
+    text-align: center;
+}
+
+.content {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffffff; /* Light text color for contrast */
+    margin-bottom: 2rem;
+}
+
+.highlight {
+    color: #9b59b6; /* Lighter dark purple for better visibility */
+}
+
+/* Features Section (2x2 Grid Layout) */
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-rows: repeat(2, auto); /* 2 rows */
+    gap: 2rem; /* Space between items */
+    margin-top: 2rem;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+    background: #2c2c2c; /* Dark background for features */
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Subtle light shadow */
+}
+
+.feature-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.feature-text h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff; /* Light text color for feature titles */
+    margin-bottom: 0.5rem;
+}
+
+.feature-text p {
+    font-size: 1rem;
+    color: #b0b0b0; /* Lighter gray for feature descriptions */
+}
+
+/* CTA Button */
+.cta-button {
+    margin-top: 3rem;
+    background-image: linear-gradient(to right, #7f00ff, #e100ff);
+    color: white;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 50px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.cta-button:hover {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* Responsive Design (Stack into 1 column on smaller screens) */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.5rem;
+    }
+
+    .features-container {
+        grid-template-columns: 1fr; /* Stack into single column */
+    }
+}

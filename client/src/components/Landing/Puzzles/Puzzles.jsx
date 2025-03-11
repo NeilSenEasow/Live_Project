@@ -21,7 +21,7 @@ const Puzzles = () => {
   }, []);
 
   return (
-    <section className="puzzles">
+    <section className="puzzles mt-2000"> {/* Increased margin to push down */}
       <div className="puzzles-layout">
         <div className="puzzles-text">
           <h2 className="puzzles-title animate__animated animate__fadeIn">Solve Your Career Puzzles</h2>

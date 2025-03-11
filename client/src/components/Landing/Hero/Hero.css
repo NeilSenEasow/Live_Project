@@ -21,6 +21,7 @@
     font-size: 3rem; /* Larger title */
     font-weight: bold;
     color: #ffffff; /* Light text color */
+    margin-bottom: 1rem; /* Space below title */
 }
 
 .highlight {
@@ -28,9 +29,9 @@
 }
 
 .hero-subtitle {
-    font-size: 2rem; /* Subtitle size */
+    font-size: 0.4rem; /* Reduced subtitle size */
     color: #cccccc; /* Light gray color */
-    margin: 20px 0;
+    margin: 20px 0; /* Space around subtitle */
 }
 
 .hero-description {
@@ -38,7 +39,6 @@
     color: #dddddd; /* Lighter gray */
     margin: 20px 0;
     max-width: 600px; /* Prevents text from stretching too wide */
-    margin: 0 auto 2rem auto; /* Centers description */
     line-height: 1.6;
 }
 
@@ -63,6 +63,12 @@
 }
 
 /* CTA Button */
+.hero-button-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px; /* Optional: Add some space above the button */
+}
+
 .hero-button {
     background-image: linear-gradient(to right, #7f00ff, #e100ff);
     color: white;
@@ -77,7 +83,6 @@
     border: none;
     cursor: pointer;
     text-decoration: none;
-    animation: pulse 2s infinite;
 }
 
 .hero-button:hover {
@@ -104,6 +109,9 @@
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2rem; /* Smaller title size on mobile */
+    }
+    .hero-subtitle {
+        font-size: 1.2rem; /* Smaller subtitle size on mobile */
     }
     .hero-description {
         font-size: 1rem; /* Smaller description size on mobile */

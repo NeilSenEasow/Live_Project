@@ -11,27 +11,27 @@ const Hero = () => {
   let indexRef = React.useRef(0); // Fix issue with index resetting
 
   return (
-    <div className="relative flex flex-col items-center justify-center text-center h-screen w-full bg-neutral-950 antialiased">
+    <div className="relative flex flex-row items-center justify-between h-screen w-full bg-neutral-950 antialiased">
       {/* Hero Content */}
-      <div className="max-w-2xl mx-auto p-4 relative z-10">
-        <h1 className="hero-title animate__animated animate__fadeInDown bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600 text-center font-bold text-lg md:text-7xl">
-          Land your <span className="highlight">dream job.</span>
+      <div className="max-w-2xl p-4 relative z-10 text-left">
+        <h1 className="hero-title animate__animated animate__fadeInDown">
+          The world's best <span className="highlight">career test.</span>
         </h1>
-        <h2 className="hero-subtitle animate__animated animate__fadeInDown text-neutral-400">
-          Without the stress.
+        <h2 className="hero-subtitle animate__animated animate__fadeInDown">
+          Using advanced machine learning, psychometrics, and career satisfaction data, we've reimagined what a career test can be.
         </h2>
-        <div className="hero-description text-neutral-500 max-w-lg mx-auto my-2 text-sm">
-          <span className="typing-animation">{text}</span>
-          <span className="cursor"></span>
+        <div className="hero-button-container">
+          <Link to="/test" className="hero-button">
+            Start the career test
+          </Link>
         </div>
 
         {/* Features Section */}
-        <div className="features mb-10 mt-5 p-5 bg-[#f0f4ff] rounded-lg shadow-lg">
+        <div className="features mb-100 mt-5 p-5 bg-[#f0f4ff] rounded-lg shadow-lg">
           {[
-            "AI Resume Builder",
-            "Automated Job Tracking",
-            "Optimize your LinkedIn Profile",
-            "And Much More...",
+            "500 M questions answered",
+            "1500+ degrees and careers",
+            "140+ personality traits",
           ].map((feature, idx) => (
             <div key={idx} className="feature flex items-center gap-2 text-neutral-600">
               <img
@@ -43,11 +43,13 @@ const Hero = () => {
             </div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <Link to="/sign-up" className="hero-button">
-          Sign Up for Free <span className="arrow">→</span>
-        </Link>
+      </div>
+      <div className="hidden md:block w-1/2">
+        {/* <img
+          src="https://plus.unsplash.com/premium_photo-1704546974012-78acde0d4905?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8" // Replace with your image URL
+          alt="Career Test Illustration"
+          className="w-full h-auto"
+        /> */}
       </div>
     </div>
   );
