@@ -1,20 +1,38 @@
-const express = require("express");
-const mongoose = require("mongoose");
+const cors = require('cors');
+const axios = require('axios');
+const bodyParser = require('body-parser');
+const express = require('express');
+const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./models/User.js");
 const dotenv = require('dotenv');
-const cors = require('cors');
+// const cors = require('cors');
 const jwt = require('jsonwebtoken'); // Import jsonwebtoken
+const { verifyToken } = require('./middleware/auth');
+const authRoutes = require('./routes/auth');
+
+const app = express();
+const PORT = process.env.PORT || 5001;
+const PYTHON_API_URL = 'http://localhost:5002';
+
+// Middleware
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    credentials: true
+}));
+app.use(bodyParser.json());
 
 dotenv.config();
 
-const app = express();
+// Initialize Express app
+// const app = express();
+// const PORT = process.env.PORT || 5000;
 
-// Use CORS middleware
+// Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://live-project-red.vercel.app'], // Allow requests from both origins
+    origin: ['http://localhost:8080'], // Allow requests from both origins
     methods: ['GET', 'POST'], // Allow specific HTTP methods
     credentials: true // Allow credentials (if needed)
 }));
@@ -31,6 +49,23 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routes
+app.use('/api/auth', authRoutes);
+
+// Protected route example
+app.get('/api/profile', verifyToken, (req, res) => {
+  res.json({ message: 'Protected route accessed successfully', user: req.user });
+});
+
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server is running' });
+});
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI; // Use the MongoDB URI from the environment variable
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -38,15 +73,15 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .catch(err => console.error("MongoDB connection error:", err));
 
 // Secret key for JWT
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Use an environment variable for the secret
+const JWT_SECRET = process.env.JWT_SECRET || 'your_default_jwt_secret'; // Ensure this is set
 
 passport.use(new LocalStrategy(
-    async (username, password, done) => {
+    async (email, password, done) => {
       try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email }); // Find user by email
         if (!user) return done(null, false, { message: "User not found" });
   
-        const isMatch = await user.verifyPassword(password);
+        const isMatch = await user.verifyPassword(password); // Use the verifyPassword method
         if (!isMatch) return done(null, false, { message: "Incorrect password" });
   
         return done(null, user);
@@ -54,7 +89,7 @@ passport.use(new LocalStrategy(
         return done(err);
       }
     }
-  ));  
+));  
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -69,10 +104,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 app.post("/auth/login", async (req, res, next) => {
   const { email, password } = req.body; // Destructure email and password from the request body
   try {
@@ -85,7 +116,8 @@ app.post("/auth/login", async (req, res, next) => {
     // Generate a token
     const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: '1h' }); // Token expires in 1 hour
 
-    res.json({ token }); // Send the token back to the client
+    // Send the token and user data back to the client
+    res.json({ token, user: { id: user._id, username: user.username, email: user.email } }); // Include user data
   } catch (err) {
     return next(err); // Handle any errors
   }
@@ -93,27 +125,31 @@ app.post("/auth/login", async (req, res, next) => {
 
 app.post("/auth/register", async (req, res) => {
     try {
-        const { username, email, password } = req.body; // Ensure this matches the request body structure
+        const { username, email, password } = req.body;
 
         // Check if the user already exists
-        const existingUserByEmail = await User.findOne({ email }); // Check by email
+        const existingUserByEmail = await User.findOne({ email });
         if (existingUserByEmail) {
-            return res.status(400).send("Email already exists"); // Send specific error message
+            return res.status(400).json({ message: "Email already exists" });
         }
 
-        const existingUserByUsername = await User.findOne({ username }); // Check by username
+        const existingUserByUsername = await User.findOne({ username });
         if (existingUserByUsername) {
-            return res.status(400).send("Username already exists"); // Send specific error message
+            return res.status(400).json({ message: "Username already exists" });
         }
 
         // Create a new user
-        const newUser = new User({ username, email, password }); // Ensure the User model has the email field
+        const newUser = new User({ username, email, password });
         await newUser.save();
 
-        return res.send("Registration successful");
+        // Create JWT token
+        const token = jwt.sign({ id: newUser._id, username: newUser.username }, JWT_SECRET, { expiresIn: '7d' });
+
+        // Send success message as JSON
+        return res.json({ token, user: { id: newUser._id, username: newUser.username, email: newUser.email } });
     } catch (err) {
-        console.error(err);
-        return res.status(500).send("Error registering user");
+        console.error("Registration error:", err); // Log the error for debugging
+        return res.status(500).json({ message: "Error registering user" });
     }
 });
 
@@ -134,6 +170,129 @@ app.get("/auth/user", async (req, res) => {
   }
 });
 
-app.listen(5001, () => {
-  console.log("Server is running on port 5001");
+
+// Middleware to log requests
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path} - ${new Date().toISOString()}`);
+    next();
 });
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Route handlers
+app.post('/generate-question', async (req, res) => {
+    try {
+        console.log('Received request for question generation:', req.body);
+        
+        const response = await axios.post(`${PYTHON_API_URL}/generate-question`, {
+            previousQA: req.body.previousQA || []
+        });
+        
+        console.log('Response from Flask:', response.data);
+        
+        if (response.data.error) {
+            throw new Error(response.data.error);
+        }
+        
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error generating question:', error.message);
+        console.error('Full error:', error);
+        
+        res.status(500).json({ 
+            error: 'Failed to generate question',
+            details: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+app.post('/analyze-answers', async (req, res) => {
+    try {
+        console.log('Received analysis request:', req.body);
+        
+        const response = await axios.post(
+            `${PYTHON_API_URL}/analyze-answers`, 
+            req.body,
+            { timeout: 25000 }  // Set timeout to 25 seconds
+        );
+        
+        console.log('Analysis response received:', response.data);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error analyzing answers:', {
+            message: error.message,
+            code: error.code,
+            response: error.response?.data
+        });
+        
+        const errorMessage = error.code === 'ECONNABORTED'
+            ? 'Analysis request timed out'
+            : error.response?.data?.error || error.message;
+            
+        res.status(500).json({ 
+            error: errorMessage,
+            details: error.message,
+            timestamp: new Date().toISOString()
+        });
+    }
+});
+
+app.get('/api/test-api', async (req, res) => {
+    try {
+        const response = await axios.get(`${PYTHON_API_URL}/test-api`);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error testing API:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/list-models', async (req, res) => {
+    try {
+        const response = await axios.get(`${PYTHON_API_URL}/list-models`);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error listing models:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/web-search', async (req, res) => {
+    try {
+        const response = await axios.post(`${PYTHON_API_URL}/web-search`, req.body);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error performing web search:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/search-web-careers', async (req, res) => {
+    try {
+        const response = await axios.post(`${PYTHON_API_URL}/search-web-careers`, req.body);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error searching web careers:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Unhandled error:', err);
+    res.status(500).json({
+        error: 'An unexpected error occurred',
+        details: err.message,
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Express server running on port ${PORT}`);
+    console.log(`Connecting to Flask API at ${PYTHON_API_URL}`);
+}); 
