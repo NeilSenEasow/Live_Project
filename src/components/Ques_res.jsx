@@ -23,6 +23,7 @@ import LoadingSpinner from './LoadingSpinner';
 // import ChatBot from './ChatBot'
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { useSearchParams } from 'react-router-dom';
 
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -40,11 +41,49 @@ function App() {
   const [webCareerResults, setWebCareerResults] = useState(null);
   const [isWebSearching, setIsWebSearching] = useState(false);
   const [pdfCareerResults, setPdfCareerResults] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [groupName, setGroupName] = useState(null);
 
   useEffect(() => {
-    // Initialize with predefined questions
-    setAllQuestions(questionsData.predefinedQuestions);
-  }, []);
+    const option = searchParams.get('option');
+    let selectedQuestions = [];
+    let currentGroupName = null;
+
+    if (option) {
+      const optionNumber = parseInt(option, 10);
+      if (questionsData.predefinedQuestions[optionNumber]) {
+        selectedQuestions = questionsData.predefinedQuestions[optionNumber];
+        console.log(`Loaded questions for option ${optionNumber}`);
+
+        switch (optionNumber) {
+          case 1:
+            currentGroupName = "Class 9-10";
+            break;
+          case 2:
+            currentGroupName = "Class 11-12";
+            break;
+          case 3:
+            currentGroupName = "UnderGraduate Student";
+            break;
+          case 4:
+            currentGroupName = "PostGraduate";
+            break;
+          default:
+            currentGroupName = "Unknown Group";
+        }
+      } else {
+        console.error(`Option ${optionNumber} not found in questions.json`);
+        setError("Failed to load questions for selected option.");
+        return;
+      }
+    } else {
+      selectedQuestions = questionsData.predefinedQuestions['1'];
+      currentGroupName = "Class 9-10";
+      console.log("Loaded default questions (option 1)");
+    }
+    setAllQuestions(selectedQuestions);
+    setGroupName(currentGroupName);
+  }, [searchParams]);
 
   const handleSelectAnswer = (option) => {
     setCurrentAnswer(option);
@@ -122,30 +161,33 @@ function App() {
       const updatedAnswers = [...answers, newAnswer];
       setAnswers(updatedAnswers);
 
-      // Generate AI question after predefined questions
-      if (currentQuestionIndex >= questionsData.predefinedQuestions.length - 1 &&
-        allQuestions.length < 20) {
+      // Generate AI question after predefined questions are finished
+      if (currentQuestionIndex >= allQuestions.length - 1) {
+        if (updatedAnswers.length < 20) {
+          console.log('\nStarting AI Question Generation');
+          console.log('Predefined Questions Completed:', allQuestions.length);
+          console.log('Current Total Answers:', updatedAnswers.length);
 
-        console.log('\nStarting AI Question Generation');
-        console.log('Predefined Questions Completed:', questionsData.predefinedQuestions.length);
-        console.log('Current Total Questions:', allQuestions.length);
+          setIsGeneratingQuestion(true);
+          const success = await generateNextAIQuestion(updatedAnswers);
 
-        setIsGeneratingQuestion(true);
-        const success = await generateNextAIQuestion(updatedAnswers);
-
-        if (!success) {
-          throw new Error('Failed to generate next question. Please try again.');
+          if (!success) {
+            throw new Error('Failed to generate next question. Please try again.');
+          }
+        } else {
+          console.log('\nMaximum AI questions reached, proceeding to analysis');
+          handleFinish(updatedAnswers);
+          return;
         }
       }
 
-      // Proceed to next question
+      // Proceed to next question if not the last question of the current set
       if (currentQuestionIndex < allQuestions.length - 1) {
         console.log('\nMoving to next question');
         setCurrentQuestionIndex(prev => prev + 1);
         setCurrentAnswer('');
-      } else if (updatedAnswers.length >= 20) {
-        console.log('\nAll questions completed, proceeding to analysis');
-        handleFinish(updatedAnswers);
+      } else {
+        console.log('\nEnd of predefined questions, potentially moving to AI or analysis');
       }
 
     } catch (err) {
@@ -162,6 +204,7 @@ function App() {
 
   const handleFinish = async (finalAnswers) => {
     console.log('\n=== Starting Final Analysis ===');
+    console.log('Selected Group:', groupName);
     console.log('Total Questions Answered:', finalAnswers.length);
     console.log('All Questions and Answers:');
     finalAnswers.forEach((qa, index) => {
@@ -176,7 +219,7 @@ function App() {
     while (retryCount <= maxRetries) {
       try {
         console.log('Attempting analysis...', { attempt: retryCount + 1 });
-        const response = await api.analyzeAnswers(finalAnswers);
+        const response = await api.analyzeAnswers(finalAnswers, groupName);
         
         if (!response.ai_generated_careers || !response.pdf_based_careers) {
           throw new Error('Invalid response format');
